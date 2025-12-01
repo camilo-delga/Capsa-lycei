@@ -1,9 +1,16 @@
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 
 // GET - Obtener todas las noticias
 export async function GET(request) {
   try {
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
     const { searchParams } = new URL(request.url);
     const categoria = searchParams.get("categoria");
 
@@ -34,6 +41,11 @@ export async function GET(request) {
 // POST - Crear nueva noticia
 export async function POST(request) {
   try {
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
     const body = await request.json();
     const { titulo, cuerpo, categoria, portada_url, autor_id } = body;
 

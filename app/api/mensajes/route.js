@@ -1,9 +1,16 @@
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 
 // GET - Obtener mensajes
 export async function GET(request) {
   try {
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
     const { searchParams } = new URL(request.url);
     const usuario_id = searchParams.get("usuario_id");
 
@@ -34,6 +41,11 @@ export async function GET(request) {
 // POST - Enviar nuevo mensaje
 export async function POST(request) {
   try {
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
     const body = await request.json();
     const { emisor, receptor, contenido } = body;
 
